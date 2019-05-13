@@ -90,10 +90,20 @@ class DoublyLinkedList:
     return prev_tail.value if prev_tail is not None else prev_tail
 
   def move_to_front(self, node):
-    pass
+    if self.length > 1 and node != self.head:
+      current_node = node
+      node.delete()
+      self.head.insert_before(current_node.value)
+      self.head = self.head.prev
+      self.tail = self.tail if node != self.tail else current_node.prev
 
   def move_to_end(self, node):
-    pass
+    if self.length > 1 and node != self.tail:
+      current_node = node
+      node.delete()
+      self.tail.insert_after(current_node.value)
+      self.tail = self.tail.next
+      self.head = self.head if node != self.head else current_node.next
 
   def delete(self, node):
     pass
@@ -144,3 +154,36 @@ print("Remove Tail:", dll.remove_from_tail()) # 0
 print("Removed:", dll.head, dll.tail, len(dll)) # None None 0
 print("Remove Tail:", dll.remove_from_tail()) # None
 print("Removed:", dll.head, dll.tail, len(dll)) # None None 0
+
+dll.add_to_tail(0)
+print("Add Tail 0:", dll.head.value, dll.tail.value, len(dll)) # 0, 0, 1
+dll.add_to_tail(1)
+print("Add Tail 1:", dll.head.value, dll.tail.value, len(dll)) # 0, 1, 2
+dll.add_to_tail(2)
+print("Add Tail 2:", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+
+dll.move_to_front(dll.head)
+print("Move Front Head (0):", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+dll.move_to_front(dll.head.next)
+print("Move Front Head-Next (1):", dll.head.value, dll.tail.value, len(dll)) # 1, 2, 3
+dll.move_to_front(dll.head.next)
+print("Move Front Head-Next (0):", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+dll.move_to_front(dll.head.next.next)
+print("Move Front Head-Next-Next (2):", dll.head.value, dll.tail.value, len(dll)) # 2, 1, 3
+dll.move_to_front(dll.head.next.next)
+print("Move Front Head-Next-Next (1):", dll.head.value, dll.tail.value, len(dll)) # 1, 0, 3
+dll.move_to_front(dll.tail)
+print("Move Front Tail (0):", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+
+dll.move_to_end(dll.tail)
+print("Move End Tail (2):", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+dll.move_to_end(dll.tail.prev)
+print("Move End Tail-Prev (1):", dll.head.value, dll.tail.value, len(dll)) # 0, 1, 3
+dll.move_to_end(dll.tail.prev)
+print("Move End Tail-Prev (2):", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+dll.move_to_end(dll.tail.prev.prev)
+print("Move End Tail-Prev-Prev (0):", dll.head.value, dll.tail.value, len(dll)) # 1, 0, 3
+dll.move_to_end(dll.tail.prev.prev)
+print("Move End Tail-Prev-Prev (1):", dll.head.value, dll.tail.value, len(dll)) # 2, 1, 3
+dll.move_to_end(dll.head)
+print("Move End Head (2):", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
