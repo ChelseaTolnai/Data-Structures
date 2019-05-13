@@ -23,10 +23,17 @@ class BinarySearchTree:
       return branch.contains(target)
 
   def get_max(self):
-    pass
+    max_value = self.value
+    while self.right:
+      return self.right.get_max()
+    return max_value
 
   def for_each(self, cb):
-    pass
+    cb(self.value)
+    while self.left:
+      return self.left.for_each(cb)
+    while self.right:
+      return self.right.for_each(cb)
 
 
 bst = BinarySearchTree(5)
@@ -41,3 +48,8 @@ print(bst.right.left.value == 6)  # True
 print(bst.contains(5))  # True
 print(bst.contains(6))  # True
 print(bst.contains(8))  # False
+
+print(bst.get_max() == 7)   # True
+bst.insert(10)
+print(bst.get_max() == 7)   # False
+print(bst.get_max() == 10)   # True
