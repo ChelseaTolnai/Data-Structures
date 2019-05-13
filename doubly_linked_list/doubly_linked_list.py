@@ -106,8 +106,12 @@ class DoublyLinkedList:
       self.head = self.head if node != self.head else current_node.next
 
   def delete(self, node):
-    pass
-    
+    current_node = node
+    node.delete()
+    self.head = self.head if node != self.head else current_node.next
+    self.tail = self.tail if node != self.tail else current_node.prev
+    self.length -= 1
+  
   def get_max(self):
     pass
 
@@ -187,3 +191,15 @@ dll.move_to_end(dll.tail.prev.prev)
 print("Move End Tail-Prev-Prev (1):", dll.head.value, dll.tail.value, len(dll)) # 2, 1, 3
 dll.move_to_end(dll.head)
 print("Move End Head (2):", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+
+dll.add_to_tail(3)
+print("Add Tail 3:", dll.head.value, dll.tail.value, len(dll)) # 0, 3, 4
+
+dll.delete(dll.head.next)
+print("Delete (1):", dll.head.value, dll.tail.value, len(dll)) # 0, 3, 3
+dll.delete(dll.head)
+print("Delete Head (0):", dll.head.value, dll.tail.value, len(dll)) # 2, 3, 2
+dll.delete(dll.tail)
+print("Delete Tail (3):", dll.head.value, dll.tail.value, len(dll)) # 2, 2, 1
+dll.delete(dll.tail)
+print("Delete Tail (2):", dll.head, dll.tail, len(dll)) # None, None, 0
