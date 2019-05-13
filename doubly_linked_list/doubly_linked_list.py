@@ -54,17 +54,17 @@ class DoublyLinkedList:
     self.length += 1
 
   def remove_from_head(self):
-    prev_head_value = self.head.value
-    if self.length == 1:
-      self.head = None
-      self.tail = None
-      self.length -= 1
+    prev_head = self.head
+    if self.length == 0:
+      return 
     else:
-      next_head = self.head.next
+      new_head = self.head.next
       self.head.delete()
-      self.head = next_head
+      self.head = new_head
+      self.tail = self.tail if self.head is not None else None
       self.length -= 1
-    return prev_head_value
+
+    return prev_head.value if prev_head is not None else prev_head
 
   def add_to_tail(self, value):
     if self.length == 0:
@@ -77,7 +77,17 @@ class DoublyLinkedList:
     self.length += 1
 
   def remove_from_tail(self):
-    pass
+    prev_tail = self.tail
+    if self.length == 0:
+      return 
+    else:
+      new_tail = self.tail.prev
+      self.tail.delete()
+      self.tail = new_tail
+      self.head = self.head if self.tail is not None else None
+      self.length -= 1
+
+    return prev_tail.value if prev_tail is not None else prev_tail
 
   def move_to_front(self, node):
     pass
@@ -103,7 +113,34 @@ print("Add Tail 2:", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
 dll.add_to_tail(3)
 print("Add Tail 3:", dll.head.value, dll.tail.value, len(dll)) # 0, 3, 4
 
-dll.remove_from_head()
-print("Remove Head:", dll.head.value, dll.tail.value, len(dll)) # 1, 3, 3
-dll.remove_from_head()
-print("Remove Head:", dll.head.value, dll.tail.value, len(dll)) # 2, 3, 2
+print("Remove Head:", dll.remove_from_head()) # 0
+print("Removed:", dll.head.value, dll.tail.value, len(dll)) # 1, 3, 3
+print("Remove Head:", dll.remove_from_head()) # 1
+print("Removed:", dll.head.value, dll.tail.value, len(dll)) # 2, 3, 2
+print("Remove Head:", dll.remove_from_head()) # 2
+print("Removed:", dll.head.value, dll.tail.value, len(dll)) # 3, 3, 1
+print("Remove Head:", dll.remove_from_head()) # 3
+print("Removed:", dll.head, dll.tail, len(dll)) # None None 0
+print("Remove Head:", dll.remove_from_head()) # None
+print("Removed:", dll.head, dll.tail, len(dll)) # None None 0
+
+dll.add_to_head(1)
+print("Add Head 1:", dll.head.value, dll.tail.value, len(dll)) # 1, 1, 1
+dll.add_to_head(0)
+print("Add Head 0:", dll.head.value, dll.tail.value, len(dll)) # 0, 1, 2
+
+dll.add_to_tail(2)
+print("Add Tail 2:", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+dll.add_to_tail(3)
+print("Add Tail 3:", dll.head.value, dll.tail.value, len(dll)) # 0, 3, 4
+
+print("Remove Tail:", dll.remove_from_tail()) # 3
+print("Removed:", dll.head.value, dll.tail.value, len(dll)) # 0, 2, 3
+print("Remove Tail:", dll.remove_from_tail()) # 2
+print("Removed:", dll.head.value, dll.tail.value, len(dll)) # 0, 1, 2
+print("Remove Tail:", dll.remove_from_tail()) # 1
+print("Removed:", dll.head.value, dll.tail.value, len(dll)) # 0, 0, 1
+print("Remove Tail:", dll.remove_from_tail()) # 0
+print("Removed:", dll.head, dll.tail, len(dll)) # None None 0
+print("Remove Tail:", dll.remove_from_tail()) # None
+print("Removed:", dll.head, dll.tail, len(dll)) # None None 0
