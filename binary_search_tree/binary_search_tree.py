@@ -36,20 +36,20 @@ class BinarySearchTree:
       return self.right.for_each(cb)
 
 
-bst = BinarySearchTree(5)
+# bst = BinarySearchTree(5)
 
-bst.insert(2)
-bst.insert(3)
-bst.insert(7)
-bst.insert(6)
-print(bst.left.right.value == 3)  # True
-print(bst.right.left.value == 6)  # True
+# bst.insert(2)
+# bst.insert(3)
+# bst.insert(7)
+# bst.insert(6)
+# print(bst.left.right.value == 3)  # True
+# print(bst.right.left.value == 6)  # True
 
-print(bst.contains(5))  # True
-print(bst.contains(6))  # True
-print(bst.contains(8))  # False
+# print(bst.contains(5))  # True
+# print(bst.contains(6))  # True
+# print(bst.contains(8))  # False
 
-print(bst.get_max() == 7)   # True
-bst.insert(10)
-print(bst.get_max() == 7)   # False
-print(bst.get_max() == 10)   # True
+# print(bst.get_max() == 7)   # True
+# bst.insert(10)
+# print(bst.get_max() == 7)   # False
+# print(bst.get_max() == 10)   # True
