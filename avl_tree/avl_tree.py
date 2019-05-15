@@ -59,7 +59,12 @@ class AVLTree:
   of the new parent. 
   """
   def left_rotate(self):
-    pass
+    old_parent = self.node
+    new_parent = self.node.right.node
+    new_parent_old_left = new_parent.left
+    new_parent.left = AVLTree(old_parent)
+    new_parent.left.node.right = new_parent_old_left
+    self.node = new_parent
 
   """
   Perform a right rotation, making the left child of this
@@ -67,7 +72,12 @@ class AVLTree:
   of the new parent. 
   """
   def right_rotate(self):
-    pass
+    old_parent = self.node
+    new_parent = self.node.left.node
+    new_parent_old_right = new_parent.right
+    new_parent.right = AVLTree(old_parent)
+    new_parent.right.node.left = new_parent_old_right
+    self.node = new_parent
 
   """
   Sets in motion the rebalancing logic to ensure the
@@ -91,29 +101,42 @@ balanceFactor = height(left subtree) - height(right subtree)
 """
 
 tree = AVLTree()
-print("init:", tree.height, -1)
+# print("init:", tree.height, -1)
 
 tree.node = Node(5)
 tree.update_height() 
-print("tree:", tree.height, 0)
+# print("tree:", tree.height, 0)
 
 tree.node.left = AVLTree(Node(3))
 tree.update_height()
-print("left:", tree.node.left.height, 0)
-print("tree:", tree.height, 1)
+# print("left:", tree.node.left.height, 0)
+# print("tree:", tree.height, 1)
 
 
 tree.node.right = AVLTree(Node(6))
 tree.update_height()
-print("tree:", tree.height, 1)
+# print("tree:", tree.height, 1)
 
-tree.node.right.node.right = AVLTree(Node(8))
+tree.node.right.node.right = AVLTree(Node(7))
 tree.update_height()
-print("tree:", tree.height, 2)
+# print("tree:", tree.height, 2)
 
 
-tree.node.right.node.right.node.right = AVLTree(Node(7))
+tree.node.right.node.right.node.right = AVLTree(Node(8))
 tree.update_height()
-print("tree:", tree.height, 3)
+# print("tree:", tree.height, 3)
 
+tree.display()
+# print(tree.node.key, 5)
+# print(tree.node.left.node.key, 3)
+# print(tree.node.right.node.key, 6)
+# print(tree.node.right.node.right.node.key, 7)
+# print(tree.node.right.node.right.node.right.node.key, 8)
+
+tree.left_rotate()
+print(tree.node.key)
+# print(tree.node.left.node.key, 5)
+# print(tree.node.left.node.left.node.key, 3)
+# print(tree.node.right.node.key, 7)
+# print(tree.node.right.node.right.node.key, 8)
 tree.display()
