@@ -39,23 +39,31 @@ class AVLTree:
   Computes the maximum number of levels there are
   in the tree
   """
+
   def update_height(self):
     if self.node:
-      self.height = max(self.node.left.update_height() if self.node.left else -1, \
-                        self.node.right.update_height() if self.node.right else -1) \
-                        + 1
-    return self.height
+      if self.node.left:
+        self.node.left.update_height()
+      if self.node.right:
+        self.node.right.update_height()
+      self.height = max(self.node.left.height if self.node.left else -1, \
+                        self.node.right.height if self.node.right else -1) + 1
+    else:
+      self.height = -1
 
   """
   Updates the balance factor on the AVLTree class
   """
   def update_balance(self):
     if self.node:
-      self.balance = (self.node.left.update_balance() if self.node.left else 0) - \
-                     (self.node.right.update_balance() if self.node.right else 0)
-      return self.height
+      if self.node.left:
+        self.node.left.update_balance()
+      if self.node.right:
+        self.node.right.update_balance()
+      self.balance = (self.node.left.height if self.node.left else 0) - \
+                     (self.node.right.height if self.node.right else 0)
     else:
-      return self.balance
+      self.balance = 0
 
   """
   Perform a left rotation, making the right child of this
@@ -65,10 +73,10 @@ class AVLTree:
   def left_rotate(self):
     old_parent = self.node
     new_parent = old_parent.right
-    new_parent_left_child = new_parent.node.left
+    new_parent_old_left_child = new_parent.node.left
     self.node = new_parent.node
-    new_parent.node = new_parent_left_child.node
-    new_parent_left_child.node = old_parent
+    new_parent.node = new_parent_old_left_child.node
+    new_parent_old_left_child.node = old_parent
 
     self.update_height()
     self.update_balance()
@@ -81,10 +89,10 @@ class AVLTree:
   def right_rotate(self):
     old_parent = self.node
     new_parent = old_parent.left
-    new_parent_right_child = new_parent.node.right
+    new_parent_old_right_child = new_parent.node.right
     self.node = new_parent.node
-    new_parent.node = new_parent_right_child.node
-    new_parent_right_child.node = old_parent
+    new_parent.node = new_parent_old_right_child.node
+    new_parent_old_right_child.node = old_parent
 
     self.update_height()
     self.update_balance()
@@ -114,7 +122,16 @@ class AVLTree:
   if we need to rebalance
   """
   def insert(self, key):
-    pass
+    if self.node is None:
+      self.node = Node(key)
+      self.node.left = AVLTree()
+      self.node.right = AVLTree()
+    elif key < self.node.key:
+      self.node.left.insert(key)
+    elif key >= self.node.key:
+      self.node.right.insert(key)
+
+    self.rebalance()
 
 
 """
@@ -123,27 +140,11 @@ balanceFactor = height(left subtree) - height(right subtree)
 
 tree = AVLTree()
 
-tree.node = Node(5)
-tree.node.right = AVLTree(Node('x'))
-tree.node.left = AVLTree(Node(3))
-tree.node.left.node.right = AVLTree(Node(4))
-tree.node.left.node.left = AVLTree(Node('c'))
-tree.node.left.node.right.node.left = AVLTree(Node('y'))
-tree.node.left.node.right.node.right = AVLTree(Node('z'))
+tree.insert(5)
+tree.insert(3)
+tree.insert(6)
+tree.insert(7)
+tree.insert(8)
+
 
 tree.display()
-print("***")
-tree.rebalance()
-tree.display()
-
-
-# assertEqual(tree.node.key, 4)
-# assertEqual(tree.node.left.node.key, 3)
-# assertEqual(tree.node.right.node.key, 5)
-# assertEqual(tree.node.left.node.left.node.key, 'c')
-# assertEqual(tree.node.left.node.right.node.key, 'y') 
-# assertEqual(tree.node.right.node.left.node.key, 'z')
-# assertEqual(tree.node.right.node.right.node.key, 'x') 
-
-
-# tree.display()
