@@ -40,13 +40,18 @@ class AVLTree:
   in the tree
   """
   def update_height(self):
-    pass
+    self.height = max(self.node.left.update_height() if self.node.left is not None else -1, \
+                      self.node.right.update_height() if self.node.right is not None else -1) \
+                      + 1
+    return self.height
 
   """
   Updates the balance factor on the AVLTree class
   """
   def update_balance(self):
-    pass
+    self.balance = (self.node.left.update_balance() if self.node.left is not None else 0) - \
+                   (self.node.right.update_balance() if self.node.right is not None else 0)
+    return self.height
 
   """
   Perform a left rotation, making the right child of this
@@ -79,3 +84,36 @@ class AVLTree:
   """
   def insert(self, key):
     pass
+
+
+"""
+balanceFactor = height(left subtree) - height(right subtree)
+"""
+
+tree = AVLTree()
+print("init:", tree.height, -1)
+
+tree.node = Node(5)
+tree.update_height() 
+print("tree:", tree.height, 0)
+
+tree.node.left = AVLTree(Node(3))
+tree.update_height()
+print("left:", tree.node.left.height, 0)
+print("tree:", tree.height, 1)
+
+
+tree.node.right = AVLTree(Node(6))
+tree.update_height()
+print("tree:", tree.height, 1)
+
+tree.node.right.node.right = AVLTree(Node(8))
+tree.update_height()
+print("tree:", tree.height, 2)
+
+
+tree.node.right.node.right.node.right = AVLTree(Node(7))
+tree.update_height()
+print("tree:", tree.height, 3)
+
+tree.display()
